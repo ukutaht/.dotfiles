@@ -1,0 +1,24 @@
+[user]
+	name = Uku Taht
+	email = uku.taht@gmail.com
+[core]
+	editor = vim
+	excludesfile = ~/.gitignore_global
+[merge]
+	tool = vimdiff
+
+[color]
+  	status = auto
+  	diff = auto
+
+[color "status"]
+  	untracked = cyan
+  	changed = green
+  	added = yellow
+
+
+[alias]
+    co = checkout
+	pull = pull --rebase origin HEAD
+[push]
+	default = current
