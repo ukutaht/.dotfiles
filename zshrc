@@ -17,11 +17,12 @@ alias zshrc="vim ~/.zshrc"
 alias code="cd ~/Desktop/code"
 alias projects"cd ~/projects"
 alias ra="cd ~/projects/royal_academy"
-alias vim='/usr/local/Cellar/vim/7.4.273/bin/vim'
+alias vim='/usr/local/Cellar/vim/7.4.430_1/bin/vim'
 alias gs='git status'
 alias g='git'
 alias rake='noglob rake'
 ctags=/usr/local/bin/ctags
+
 
 unsetopt correct_all
 
@@ -33,8 +34,10 @@ alias be='bundle exec'
 
 # User configuration
 
-export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin"
-# export MANPATH="/usr/local/man:$MANPATH"
+export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin"
+
+export MANPATH="/usr/local/man:$MANPATH"
 
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+export PATH="/usr/local/bin:/usr/local/sbin:$PATH"

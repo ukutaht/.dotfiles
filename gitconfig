@@ -19,6 +19,5 @@
 
 [alias]
     co = checkout
-	pull = pull --rebase origin HEAD
 [push]
 	default = current
