@@ -15,8 +15,6 @@ ZSH_THEME="garyblessington"
 alias vimrc="vim ~/.vimrc"
 alias zshrc="vim ~/.zshrc"
 alias code="cd ~/Desktop/code"
-alias projects"cd ~/projects"
-alias ra="cd ~/projects/royal_academy"
 alias vim='/usr/local/Cellar/vim/7.4.430_1/bin/vim'
 alias gs='git status'
 alias g='git'

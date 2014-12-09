@@ -43,10 +43,6 @@ set autoread
     let &t_EI .= "\<Esc>[6 q"
  endif
 
-"##############################################################################                                                                         
-"" gitgutter
-"##############################################################################                                                                         
-"
 "" Use ctrl-[hjkl] to select the active split!
 nmap <silent> <c-k> :wincmd k<CR>                                                                                                                       
 nmap <silent> <c-j> :wincmd j<CR>                                                                                                                       
@@ -58,9 +54,7 @@ nmap <silent> <c-l> :wincmd l<CR>
 " COLOR
 "" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 :set t_Co=256 " 256 colors
-:set background=dark
-:color grb256
-
+:color Tomorrow-Night
 
 
 set wildmode=list:longest
@@ -74,6 +68,7 @@ set wildignore+=vendor/cache/**
 set wildignore+=*.gem
 set wildignore+=log/**
 set wildignore+=tmp/**
+set wildignore+=target
 set wildignore+=*.png,*.jpg,*.gif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
