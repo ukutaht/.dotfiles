@@ -1,23 +1,42 @@
 [user]
 	name = Uku Taht
 	email = uku.taht@gmail.com
+
 [core]
 	editor = vim
 	excludesfile = ~/.gitignore_global
+
 [merge]
 	tool = vimdiff
+
+[difftool]
+	prompt = false
 
 [color]
   	status = auto
   	diff = auto
+    ui = auto
 
 [color "status"]
   	untracked = cyan
   	changed = green
-  	added = yellow
+    added  = yellow
 
-
-[alias]
-    co = checkout
 [push]
 	default = current
+
+[advice]
+	pushNonFastForward = false
+	statusHints = false
+  detachedHead = false
+
+[alias]
+    aa  = add --all
+    a   = add -u
+    ci  = commit --verbose
+    ca  = commit --amend
+    co  = checkout
+    d   = diff
+    dc  = diff --cached
+    ls   = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    st  = status --short --branch
