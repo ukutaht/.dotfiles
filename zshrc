@@ -6,8 +6,6 @@ ZSH_THEME="garyblessington"
 
 alias vimrc="vim ~/.vimrc"
 alias zshrc="vim ~/.zshrc"
-alias code="cd ~/Desktop/code"
-alias vim='/usr/local/Cellar/vim/7.4.430_1/bin/vim'
 alias g='git'
 alias rake='noglob rake'
 alias be='bundle exec'
@@ -33,3 +31,5 @@ alias java8='export JAVA_HOME=$JAVA_HOME_8'
 
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+
+source ~/.localrc
