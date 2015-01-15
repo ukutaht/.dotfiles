@@ -82,7 +82,7 @@ cno jj <c-c>
 " MULTIPURPOSE TAB KEY
 " Indent if we're at the beginning of a line. Else, do completion.
 " """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
- function! InsertTabWrapper()
+function! InsertTabWrapper()
    let col = col('.') - 1
       if !col || getline('.')[col - 1] !~ '\k'
          return "\<tab>"
@@ -98,8 +98,6 @@ function! MapCR()
   nnoremap <cr> :call RunTestFile()<cr>
 endfunction
 call MapCR()
-nnoremap <leader>t :call RunNearestTest()<cr>
-nnoremap <leader>a :call RunTests('')<cr>
 
 function! RunTestFile(...)
     if a:0
@@ -116,66 +114,32 @@ function! RunTestFile(...)
     " store the filename if in a spec file
     let in_test_file = match(expand("%"), '\([sS]pec\|[tT]est\|examples\)') != -1
 
+    if in_test_file
+      let t:test_file=@%
+    elseif !exists(t:test_file)
+      let t:test_file=""
+    endif
+
     " First choice: project-specific test script
     if filereadable("script/test")
-      if in_test_file
-        call SetTestFile()
-      endif
-      exec ":!script/test " . t:grb_test_file
-      return
+      exec ":!script/test " . t:test_file
     end
 
-    " Run the tests for the previously-marked file.
-    let in_ruby_test_file = match(expand("%"), '\(_spec.rb\)$') != -1
-    let in_elixir_test_file = match(expand("%"), '\(_test.exs\)$') != -1
-    let in_javascript_test_file = match(expand("%"), '\([sS]pec.js\)$') != -1
+    " run ruby tests
+    let in_ruby_file = match(expand("%"), '\(.rb\)$') != -1
 
-    if in_ruby_test_file
-      let t:test_lang='ruby'
-      call SetTestFile()
-    elseif in_elixir_test_file
-      let t:test_lang='elixir'
-      call SetTestFile()
-    elseif in_javascript_test_file
-      let t:test_lang='javascript'
-      call SetTestFile()
+    if in_ruby_file
+      call RunRubyTests(t:test_file)
     end
-    if t:test_lang == 'ruby'
-      call RunRubyTests(t:grb_test_file . command_suffix)
-    elseif t:test_lang == 'elixir'
-      call RunElixirTests(t:grb_test_file . command_suffix)
-    elseif t:test_lang == 'javascript'
-      call RunJavascriptTests(t:grb_test_file . command_suffix)
-    end
-endfunction
-
-function! RunNearestTest()
-    let spec_line_number = line('.')
-    call RunTestFile(":" . spec_line_number)
 endfunction
 
 function! SetTestFile()
-    let t:grb_test_file=@%
-endfunction
-
-function! RunElixirTests(filename)
-    exec ":!mix test " . a:filename
-endfunction
-
-function! RunJavascriptTests(filename)
-    exec ":!rake teaspoon " . a:filename
 endfunction
 
 function! RunRubyTests(filename)
-  if match(a:filename, '\.feature$') != -1
-      exec ":!script/features " . a:filename
-  else
-      " Fall back to a blocking test run with Bundler
-      if filereadable("Gemfile")
-          exec ":!bundle exec rspec --color " . a:filename
-      " Fall back to a normal blocking test run
-      else
-          exec ":!rspec --color " . a:filename
-      end
-  end
+    if filereadable("Gemfile")
+        exec ":!bundle exec rspec --color " . a:filename
+    else
+        exec ":!rspec --color " . a:filename
+    end
 endfunction
