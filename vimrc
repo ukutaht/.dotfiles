@@ -100,12 +100,6 @@ endfunction
 call MapCR()
 
 function! RunTestFile(...)
-    if a:0
-        let command_suffix = a:1
-    else
-        let command_suffix = ""
-    endif
-
     " save the file before running specs
     if expand("%") != ""
       :w
@@ -116,7 +110,7 @@ function! RunTestFile(...)
 
     if in_test_file
       let t:test_file=@%
-    elseif !exists(t:test_file)
+    elseif !exists("t:test_file")
       let t:test_file=""
     endif
 
