@@ -29,7 +29,6 @@ export JAVA_HOME_8=$(/usr/libexec/java_home -v 1.8)
 alias java7='export JAVA_HOME=$JAVA_HOME_7'
 alias java8='export JAVA_HOME=$JAVA_HOME_8'
 
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
 source ~/.localrc
