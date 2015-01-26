@@ -107,6 +107,7 @@ function! RunTestFile(...)
 
     " store the filename if in a spec file
     let in_test_file = match(expand("%"), '\([sS]pec\|[tT]est\|examples\)') != -1
+    let in_ruby_file = match(expand("%"), '\(.rb\)$') != -1
 
     if in_test_file
       let t:test_file=@%
@@ -114,15 +115,9 @@ function! RunTestFile(...)
       let t:test_file=""
     endif
 
-    " First choice: project-specific test script
     if filereadable("script/test")
       exec ":!script/test " . t:test_file
-    end
-
-    " run ruby tests
-    let in_ruby_file = match(expand("%"), '\(.rb\)$') != -1
-
-    if in_ruby_file
+    elseif in_ruby_file
       call RunRubyTests(t:test_file)
     end
 endfunction
