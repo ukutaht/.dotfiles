@@ -28,3 +28,6 @@
 [submodule "vim/bundle/goyo"]
 	path = vim/bundle/goyo
 	url = https://github.com/junegunn/goyo.vim.git
+[submodule "vim/bundle/limelight"]
+	path = vim/bundle/limelight
+	url = https://github.com/junegunn/limelight.vim.git
