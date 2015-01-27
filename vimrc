@@ -29,6 +29,8 @@ filetype plugin on
 filetype indent on
 set noswapfile
 
+let g:goyo_width=100
+
 " toggle nerdtree
 map <c-n> :NERDTreeToggle <cr>
 
