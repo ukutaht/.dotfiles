@@ -29,7 +29,12 @@ filetype plugin on
 filetype indent on
 set noswapfile
 
+"writing mode
 let g:goyo_width=100
+let g:limelight_default_coefficient = 0.3
+
+autocmd User GoyoEnter Limelight
+autocmd User GoyoLeave Limelight!
 
 " toggle nerdtree
 map <c-n> :NERDTreeToggle <cr>
