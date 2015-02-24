@@ -21,6 +21,7 @@ unsetopt correct_all
 
 # Run icepick with ^S
 unsetopt flowcontrol
+
 function insert-icepick-path-in-command-line() {
     local selected_path
     echo
@@ -28,7 +29,7 @@ function insert-icepick-path-in-command-line() {
     eval 'LBUFFER="$LBUFFER$selected_path"'
     zle reset-prompt
 }
-zle -N insert-selecta-path-in-command-line
+zle -N insert-icepick-path-in-command-line
 bindkey "^S" "insert-icepick-path-in-command-line"
 
 export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin"
