@@ -19,7 +19,8 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 unsetopt correct_all
 
-# Run icepick with ^I
+# Run icepick with ^S
+unsetopt flowcontrol
 function insert-icepick-path-in-command-line() {
     local selected_path
     echo
@@ -28,7 +29,7 @@ function insert-icepick-path-in-command-line() {
     zle reset-prompt
 }
 zle -N insert-selecta-path-in-command-line
-bindkey "^I" "insert-icepick-path-in-command-line"
+bindkey "^S" "insert-icepick-path-in-command-line"
 
 export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin"
 
