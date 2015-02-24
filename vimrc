@@ -129,9 +129,6 @@ function! RunTestFile(...)
     end
 endfunction
 
-function! SetTestFile()
-endfunction
-
 function! RunRubyTests(filename)
     if filereadable("Gemfile")
         exec ":!bundle exec rspec --color " . a:filename
@@ -139,3 +136,18 @@ function! RunRubyTests(filename)
         exec ":!rspec --color " . a:filename
     end
 endfunction
+
+function! IcepickCommand(choice_command, selecta_args, vim_command)
+  try
+    let selection = system(a:choice_command . " | icepick " . a:selecta_args)
+  catch /Vim:Interrupt/
+    redraw!
+    return
+  endtry
+  redraw!
+  exec a:vim_command . " " . selection
+endfunction
+
+" Find all files in all non-dot directories starting in the working directory.
+" Fuzzy select one of those. Open the selected file with :e.
+nnoremap <leader>f :call IcepickCommand("find * -type f", "", ":e")<cr>

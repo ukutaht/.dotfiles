@@ -19,6 +19,17 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 unsetopt correct_all
 
+# Run icepick with ^I
+function insert-icepick-path-in-command-line() {
+    local selected_path
+    echo
+    selected_path=$(find * -type f | icepick) || return
+    eval 'LBUFFER="$LBUFFER$selected_path"'
+    zle reset-prompt
+}
+zle -N insert-selecta-path-in-command-line
+bindkey "^I" "insert-icepick-path-in-command-line"
+
 export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin"
 
 export MANPATH="/usr/local/man:$MANPATH"
@@ -33,3 +44,4 @@ export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 
 source ~/.localrc
 eval "$(rbenv init -)"
+
