@@ -76,6 +76,7 @@ set wildignore+=*.gem
 set wildignore+=log/**
 set wildignore+=tmp/**
 set wildignore+=target
+set wildignore+=dist/
 set wildignore+=*.png,*.jpg,*.gif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

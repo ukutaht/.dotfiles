@@ -8,3 +8,7 @@ script/test
 java/out
 out
 TODO.txt
+dist
+.cabal-sandbox/
+cabal.sandbox.config
+cabal.config
