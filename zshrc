@@ -1,14 +1,15 @@
 ZSH=$HOME/.oh-my-zsh
 
-export EDITOR="vim"
+export EDITOR="nvim"
 
 ZSH_THEME="garyblessington"
 
-alias vimrc="vim ~/.vimrc"
-alias zshrc="vim ~/.zshrc"
+alias vimrc="nvim ~/.vimrc"
+alias zshrc="nvim ~/.zshrc"
 alias g='git'
 alias rake='noglob rake'
 alias be='bundle exec'
+alias vim='nvim'
 
 ctags=/usr/local/bin/ctags
 
