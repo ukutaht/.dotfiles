@@ -48,3 +48,11 @@ export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
 source ~/.localrc
 eval "$(rbenv init -)"
 
+echo '
+      /╲ ︵╱\
+     |(◉) (◉)|
+      \︶V︶/
+      /↺↺↺↺\
+      ↺↺↺↺↺↺
+      \↺↺↺↺/
+    ¯¯/\¯¯/\¯¯'
