@@ -4,8 +4,8 @@ let mapleader=","
 
 set number
 set hidden
-syntax on
 filetype plugin indent on
+syntax on
 
 set shell=/bin/sh
 set autoindent
@@ -23,10 +23,9 @@ set clipboard=unnamed
 set laststatus=2
 set noshowmode
 set statusline=%f%m%=%r%y
-filetype plugin on
-filetype indent on
 set noswapfile
 set cursorline
+set nohlsearch
 
 "writing mode
 let g:goyo_width=100
@@ -133,9 +132,9 @@ endfunction
 
 function! RunRubyTests(filename)
     if filereadable("Gemfile")
-        exec('!bundle exec rspec --color ' . a:filename)
+        exec('!bundle exec rspec ' . a:filename)
     else
-        exec('!rspec --color ' . a:filename)
+        exec('!rspec ' . a:filename)
     end
 endfunction
 
