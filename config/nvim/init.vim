@@ -35,6 +35,8 @@ let g:limelight_default_coefficient = 0.3
 autocmd User GoyoEnter Limelight
 autocmd User GoyoLeave Limelight!
 
+"nerdtree ignore
+let NERDTreeIgnore = ['_build', 'deps', 'node_modules', '__pycache__', '*.pyc', 'target']
 " toggle nerdtree
 map <c-n> :NERDTreeToggle <cr>
 
@@ -47,6 +49,11 @@ nmap <silent> <c-j> :wincmd j<CR>
 nmap <silent> <c-h> :wincmd h<CR>
 nmap <silent> <c-l> :wincmd l<CR>
 
+tmap <silent> <c-k> <c-\><c-n>:wincmd k<CR>
+tmap <silent> <c-j> <c-\><c-n>:wincmd j<CR>
+tmap <silent> <c-h> <c-\><c-n>:wincmd h<CR>
+tmap <silent> <c-l> <c-\><c-n>:wincmd l<CR>
+
 if has('nvim')
    nmap <BS> <C-W>h
 endif
@@ -54,15 +61,7 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " COLOR
 "" """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-:set t_Co=256 " 256 colors
 :color my_color
-
-"cursor
-if &term =~ '^xterm'
-  let &t_SI .= "\<Esc>[4 q"
-  let &t_EI .= "\<Esc>[6 q"
-endif
-
 
 set wildmode=list:longest
 set wildmenu                "enable ctrl-n and ctrl-p to scroll thru matches
@@ -76,8 +75,12 @@ set wildignore+=*.gem
 set wildignore+=log/**
 set wildignore+=tmp/**
 set wildignore+=target
-set wildignore+=dist/
+set wildignore+=dist
+set wildignore+=bower_components
 set wildignore+=*.png,*.jpg,*.gif
+set wildignore+=**/node_modules/**
+set wildignore+=**priv/static/**
+set wildignore+=deps
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "KEYMAPS
@@ -102,18 +105,16 @@ inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 
 " RUNNING TESTS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! MapCR()
-  nnoremap <cr> :call RunTestFile()<cr>
-endfunction
-call MapCR()
+nnoremap <cr> :call RunTestFile()<cr>
 
 function! RunTestFile(...)
     if expand("%") != ""
       :w
     end
 
-    let in_test_file = match(expand("%"), '\([sS]pec\|[tT]est\|examples\)') != -1
+    let in_test_file = match(expand("%"), '\([sS]pec\|[tT]est\)') != -1
     let in_ruby_file = match(expand("%"), '\(.rb\)$') != -1
+    let in_elixir_file = match(expand("%"), '\(.ex[s]\)$') != -1
 
     if in_test_file
       let t:test_file=@%
@@ -122,16 +123,66 @@ function! RunTestFile(...)
     endif
 
     if filereadable("script/test")
-      exec ":!script/test " . t:test_file
+      exec('!script/test ' . t:test_file)
     elseif in_ruby_file
       call RunRubyTests(t:test_file)
+    elseif in_elixir_file
+      call RunElixirTests(t:test_file)
     end
 endfunction
 
 function! RunRubyTests(filename)
     if filereadable("Gemfile")
-        exec ":!bundle exec rspec --color " . a:filename
+        exec('!bundle exec rspec --color ' . a:filename)
     else
-        exec ":!rspec --color " . a:filename
+        exec('!rspec --color ' . a:filename)
     end
 endfunction
+
+function! RunElixirTests(filename)
+  exec('!mix test ' . a:filename)
+endfunction
+
+autocmd filetype crontab setlocal nobackup nowritebackup
+
+function! SpecFileFor(file)
+  return substitute(a:file, '\vlib/(.+).rb', 'spec/\1_spec.rb', '')
+endfunction
+
+function! JumpToSpec()
+  let currentFile = expand("%")
+  let specFile    = SpecFileFor(currentFile)
+  if filereadable(specFile)
+    " Jump to spec window if it's already open
+    let windowNr = bufwinnr(specFile)
+    if windowNr != -1
+      execute windowNr . "wincmd w"
+    " Window is not already open, split it
+    else
+      execute "vsp" specFile
+    endif
+  else
+    if confirm("Spec file doesn't exist. Create " . specFile . "?", "yes\nno") == 1
+      execute "vsp" specFile
+    endif
+  endif
+endfunction
+
+nnoremap <Leader>s :call JumpToSpec()<CR>
+
+" Trailing whitespace
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd BufRead,InsertLeave * match ExtraWhitespace /\s\+$/
+highlight ExtraWhitespace ctermbg=red guibg=red
+autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+
+function! <SID>StripTrailingWhitespaces()
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//e
+  call cursor(l, c)
+endfun
+
+autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
+
+let g:jsx_ext_required = 0

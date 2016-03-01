@@ -4,7 +4,7 @@ export EDITOR="nvim"
 
 ZSH_THEME="garyblessington"
 
-alias vimrc="nvim ~/.vimrc"
+alias vimrc="nvim ~/.nvimrc"
 alias zshrc="nvim ~/.zshrc"
 alias g='git'
 alias rake='noglob rake'
@@ -44,9 +44,22 @@ alias java7='export JAVA_HOME=$JAVA_HOME_7'
 alias java8='export JAVA_HOME=$JAVA_HOME_8'
 
 export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
+export PATH="$PATH:/Users/ukutaht/.cargo/bin"
 
 source ~/.localrc
 eval "$(rbenv init -)"
+
+function prune_branches() {
+  git remote prune origin
+  git branch --merged | grep -v "\*" | xargs -n 1 git branch -d
+}
+
+function github()
+{
+ local location=$(grep -o -m 1 'github.*' .git/config)
+ local url=$(cut -d ":" -f 2 <<< "$location")
+ open "http://www.github.com/$url"
+}
 
 echo '
       /╲ ︵╱\

@@ -45,11 +45,6 @@ map <c-n> :NERDTreeToggle <cr>
 " If a file is changed outside of vim, automatically reload it without asking
 set autoread
 
-if &term =~ '^xterm'
-  let &t_SI .= "\<Esc>[4 q"
-  let &t_EI .= "\<Esc>[6 q"
-endif
-
 "" Use ctrl-[hjkl] to select the active split!
 nmap <silent> <c-k> :wincmd k<CR>
 nmap <silent> <c-j> :wincmd j<CR>
