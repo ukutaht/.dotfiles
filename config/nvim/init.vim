@@ -113,8 +113,6 @@ function! RunTestFile(...)
     end
 
     let in_test_file = match(expand("%"), '\([sS]pec\|[tT]est\)') != -1
-    let in_ruby_file = match(expand("%"), '\(.rb\)$') != -1
-    let in_elixir_file = match(expand("%"), '\(.ex[s]\)$') != -1
 
     if in_test_file
       let t:test_file=@%
@@ -122,12 +120,18 @@ function! RunTestFile(...)
       let t:test_file=""
     endif
 
+    let in_ruby_file = match(expand("%"), '\(.rb\)$') != -1
+    let in_elixir_file = match(expand("%"), '\(.ex\|.exs\)$') != -1
+    let in_rust_file = match(expand("%"), '\(.rs\)$') != -1
+
     if filereadable("script/test")
       exec('!script/test ' . t:test_file)
     elseif in_ruby_file
       call RunRubyTests(t:test_file)
     elseif in_elixir_file
       call RunElixirTests(t:test_file)
+    elseif in_rust_file
+      call RunRustTests(t:test_file)
     end
 endfunction
 
@@ -143,15 +147,27 @@ function! RunElixirTests(filename)
   exec('!mix test ' . a:filename)
 endfunction
 
+function! RunRustTests(filename)
+  exec('!cargo test')
+endfunction
+
 autocmd filetype crontab setlocal nobackup nowritebackup
 
 function! SpecFileFor(file)
-  return substitute(a:file, '\vlib/(.+).rb', 'spec/\1_spec.rb', '')
+  let in_ruby_file = match(a:file, '\(.rb\)$') != -1
+  let in_elixir_file = match(a:file, '\(.ex\)$') != -1
+
+  if in_ruby_file
+    return substitute(a:file, '\vlib/(.+).rb', 'spec/\1_spec.rb', '')
+  elseif in_elixir_file
+    return substitute(a:file, '\vweb/(.+).ex', 'test/\1_test.exs', '')
+  endif
 endfunction
 
 function! JumpToSpec()
   let currentFile = expand("%")
   let specFile    = SpecFileFor(currentFile)
+  echo specFile
   if filereadable(specFile)
     " Jump to spec window if it's already open
     let windowNr = bufwinnr(specFile)

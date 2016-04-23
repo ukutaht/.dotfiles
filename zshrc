@@ -61,6 +61,8 @@ function github()
  open "http://www.github.com/$url"
 }
 
+eval $(docker-machine env)
+
 echo '
       /╲ ︵╱\
      |(◉) (◉)|
