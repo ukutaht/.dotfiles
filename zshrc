@@ -63,6 +63,8 @@ function github()
 
 eval $(docker-machine env)
 
+export FZF_DEFAULT_COMMAND='ag -l -g ""'
+
 echo '
       /╲ ︵╱\
      |(◉) (◉)|
@@ -71,3 +73,5 @@ echo '
       ↺↺↺↺↺↺
       \↺↺↺↺/
     ¯¯/\¯¯/\¯¯'
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -1,6 +1,6 @@
 call plug#begin('~/.vim/plugged')
 Plug 'jiangmiao/auto-pairs'
-Plug 'kien/ctrlp.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'scrooloose/nerdtree'
 Plug 'rust-lang/rust.vim'
 Plug 'elixir-lang/vim-elixir'
@@ -25,7 +25,6 @@ set shiftwidth=2
 set softtabstop=2
 set tabstop=2
 set expandtab
-set runtimepath^=~/.vim/bundle/ctrlp.vim
 set cmdheight=1
 set winwidth=79
 set backspace=2
@@ -212,3 +211,8 @@ endfun
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 let g:jsx_ext_required = 0
+
+"""
+
+""" Map FZF to ctrl-p
+map <c-p> :execute 'FZF'<CR>
