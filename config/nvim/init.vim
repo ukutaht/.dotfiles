@@ -1,13 +1,17 @@
 call plug#begin('~/.vim/plugged')
 Plug 'jiangmiao/auto-pairs'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'scrooloose/nerdtree'
-Plug 'rust-lang/rust.vim'
-Plug 'elixir-lang/vim-elixir'
 Plug 'tpope/vim-endwise'
+Plug 'scrooloose/nerdtree'
+Plug 'Shougo/deoplete.nvim'
 Plug 'airblade/vim-gitgutter'
-Plug 'pangloss/vim-javascript'
-Plug 'mxw/vim-jsx'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
+Plug 'rust-lang/rust.vim', {'for': 'rust'}
+Plug 'racer-rust/vim-racer', {'for': 'rust'}
+Plug 'elixir-lang/vim-elixir', {'for': ['elixir', 'eelixir']}
+Plug 'slashmili/alchemist.vim', {'for': ['elixir', 'eelixir']}
+Plug 'pangloss/vim-javascript', {'for': 'javascript'}
+Plug 'mxw/vim-jsx', {'for': 'javascript'}
 call plug#end()
 
 let mapleader=","
@@ -35,6 +39,8 @@ set statusline=%f%m%=%r%y
 set noswapfile
 set cursorline
 set nohlsearch
+
+let g:deoplete#enable_at_startup = 1
 
 "writing mode
 let g:goyo_width=100
@@ -212,6 +218,8 @@ autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
 let g:jsx_ext_required = 0
 
+let g:racer_cmd = "/Users/ukutaht/.cargo/bin/racer"
+let $RUST_SRC_PATH="/usr/local/src/rustc-1.8.0/src"
 """
 
 """ Map FZF to ctrl-p

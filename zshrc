@@ -23,16 +23,6 @@ unsetopt correct_all
 # Run icepick with ^S
 unsetopt flowcontrol
 
-function insert-icepick-path-in-command-line() {
-    local selected_path
-    echo
-    selected_path=$(find * -type f | icepick) || return
-    eval 'LBUFFER="$LBUFFER$selected_path"'
-    zle reset-prompt
-}
-zle -N insert-icepick-path-in-command-line
-bindkey "^S" "insert-icepick-path-in-command-line"
-
 export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin"
 
 export MANPATH="/usr/local/man:$MANPATH"
@@ -64,6 +54,7 @@ function github()
 eval $(docker-machine env)
 
 export FZF_DEFAULT_COMMAND='ag -l -g ""'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 echo '
       /╲ ︵╱\
