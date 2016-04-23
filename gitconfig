@@ -3,7 +3,7 @@
 	email = uku.taht@gmail.com
 
 [core]
-	editor = vim
+	editor = nvim
 	excludesfile = ~/.gitignore_global
 
 [merge]
