@@ -1,4 +1,14 @@
-execute pathogen#infect()
+call plug#begin('~/.vim/plugged')
+Plug 'jiangmiao/auto-pairs'
+Plug 'kien/ctrlp.vim'
+Plug 'scrooloose/nerdtree'
+Plug 'rust-lang/rust.vim'
+Plug 'elixir-lang/vim-elixir'
+Plug 'tpope/vim-endwise'
+Plug 'airblade/vim-gitgutter'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+call plug#end()
 
 let mapleader=","
 
