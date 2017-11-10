@@ -20,9 +20,6 @@ source $ZSH/oh-my-zsh.sh
 # User configuration
 unsetopt correct_all
 
-# Run icepick with ^S
-unsetopt flowcontrol
-
 export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin"
 
 export MANPATH="/usr/local/man:$MANPATH"
@@ -51,10 +48,14 @@ function github()
  open "http://www.github.com/$url"
 }
 
-eval $(docker-machine env)
+export ANDROID_HOME=~/Library/Android/sdk
+export PATH=${PATH}:${ANDROID_HOME}/tools
+export PATH=${PATH}:${ANDROID_HOME}/platform-tools
 
-export FZF_DEFAULT_COMMAND='ag -l -g ""'
+export FZF_DEFAULT_COMMAND='ag -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+test -s "$HOME/.kiex/scripts/kiex" && source "$HOME/.kiex/scripts/kiex"
 
 echo '
       /╲ ︵╱\
@@ -65,4 +66,21 @@ echo '
       \↺↺↺↺/
     ¯¯/\¯¯/\¯¯'
 
+# Setup fzf
+# ---------
+if [[ ! "$PATH" == */Users/ukutaht/.fzf/bin* ]]; then
+  export PATH="$PATH:/Users/ukutaht/.fzf/bin"
+fi
+
+# Man path
+# --------
+if [[ ! "$MANPATH" == */Users/ukutaht/.fzf/man* && -d "/Users/ukutaht/.fzf/man" ]]; then
+  export MANPATH="$MANPATH:/Users/ukutaht/.fzf/man"
+fi
+
+# Auto-completion
+# ---------------
+[[ $- == *i* ]] && source "/Users/ukutaht/.fzf/shell/completion.zsh" 2> /dev/null
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source $HOME/.cargo/env

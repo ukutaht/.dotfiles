@@ -3,23 +3,25 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-endwise'
 Plug 'scrooloose/nerdtree'
 Plug 'Shougo/deoplete.nvim'
+Plug 'neomake/neomake'
 Plug 'airblade/vim-gitgutter'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
-Plug 'rust-lang/rust.vim', {'for': 'rust'}
-Plug 'racer-rust/vim-racer', {'for': 'rust'}
+Plug 'leafgarland/typescript-vim'
+Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
+Plug 'rust-lang/rust.vim'
+Plug 'racer-rust/vim-racer'
 Plug 'elixir-lang/vim-elixir', {'for': ['elixir', 'eelixir']}
 Plug 'slashmili/alchemist.vim', {'for': ['elixir', 'eelixir']}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
 Plug 'mxw/vim-jsx', {'for': 'javascript'}
+
 call plug#end()
 
 let mapleader=","
 
 set number
 set hidden
-filetype plugin indent on
-syntax on
 
 set shell=/bin/sh
 set autoindent
@@ -37,8 +39,9 @@ set laststatus=2
 set noshowmode
 set statusline=%f%m%=%r%y
 set noswapfile
-set cursorline
 set nohlsearch
+
+set lazyredraw
 
 let g:deoplete#enable_at_startup = 1
 
@@ -50,7 +53,7 @@ autocmd User GoyoEnter Limelight
 autocmd User GoyoLeave Limelight!
 
 "nerdtree ignore
-let NERDTreeIgnore = ['_build', 'deps', 'node_modules', '__pycache__', '*.pyc', 'target']
+let NERDTreeIgnore = ['_build', 'build', 'deps', 'node_modules', '__pycache__', '*.pyc', 'target', 'mnesiadb']
 " toggle nerdtree
 map <c-n> :NERDTreeToggle <cr>
 
@@ -138,6 +141,7 @@ function! RunTestFile(...)
     let in_ruby_file = match(expand("%"), '\(.rb\)$') != -1
     let in_elixir_file = match(expand("%"), '\(.ex\|.exs\)$') != -1
     let in_rust_file = match(expand("%"), '\(.rs\)$') != -1
+    let in_js_file = match(expand("%"), '\(.js\)$') != -1
 
     if filereadable("script/test")
       exec('!script/test ' . t:test_file)
@@ -147,6 +151,8 @@ function! RunTestFile(...)
       call RunElixirTests(t:test_file)
     elseif in_rust_file
       call RunRustTests(t:test_file)
+    elseif in_js_file
+      call RunJSTests(t:test_file)
     end
 endfunction
 
@@ -164,6 +170,10 @@ endfunction
 
 function! RunRustTests(filename)
   exec('!cargo test')
+endfunction
+
+function! RunJSTests(filename)
+  exec('!npm run test')
 endfunction
 
 autocmd filetype crontab setlocal nobackup nowritebackup
@@ -224,3 +234,19 @@ let $RUST_SRC_PATH="/usr/local/src/rustc-1.8.0/src"
 
 """ Map FZF to ctrl-p
 map <c-p> :execute 'FZF'<CR>
+
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_elixir_mix_maker = {
+      \ 'exe' : 'mix',
+      \ 'args': ['compile', '--warnings-as-errors'],
+      \ 'cwd': getcwd(),
+      \ 'errorformat':
+        \ '** %s %f:%l: %m,' .
+        \ '%f:%l: warning: %m'
+      \ }
+
+let g:neomake_elixir_enabled_makers = ['mix']
+let g:neomake_java_enabled_makers = []
+
+autocmd! BufRead * Neomake
+autocmd! BufWritePost * Neomake
