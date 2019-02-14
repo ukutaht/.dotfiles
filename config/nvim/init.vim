@@ -2,15 +2,11 @@ call plug#begin('~/.vim/plugged')
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-endwise'
 Plug 'scrooloose/nerdtree'
-Plug 'Shougo/deoplete.nvim'
-Plug 'neomake/neomake'
 Plug 'airblade/vim-gitgutter'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 
-Plug 'leafgarland/typescript-vim'
 Plug 'vim-ruby/vim-ruby', {'for': 'ruby'}
 Plug 'rust-lang/rust.vim'
-Plug 'racer-rust/vim-racer'
 Plug 'elixir-lang/vim-elixir', {'for': ['elixir', 'eelixir']}
 Plug 'slashmili/alchemist.vim', {'for': ['elixir', 'eelixir']}
 Plug 'pangloss/vim-javascript', {'for': 'javascript'}
@@ -44,13 +40,6 @@ set nohlsearch
 set lazyredraw
 
 let g:deoplete#enable_at_startup = 1
-
-"writing mode
-let g:goyo_width=100
-let g:limelight_default_coefficient = 0.3
-
-autocmd User GoyoEnter Limelight
-autocmd User GoyoLeave Limelight!
 
 "nerdtree ignore
 let NERDTreeIgnore = ['_build', 'build', 'deps', 'node_modules', '__pycache__', '*.pyc', 'target', 'mnesiadb']
@@ -111,15 +100,15 @@ cno jj <c-c>
 " Indent if we're at the beginning of a line. Else, do completion.
 " """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 function! InsertTabWrapper()
-   let col = col('.')
-   let line = getline('.')
-   if !col || line[col - 2] !~ '\k'
-     return "\<tab>"
-   else
-     return "\<c-n>"
-   endif
+    let col = col('.') - 1
+    if !col || getline('.')[col - 1] !~ '\k'
+        return "\<tab>"
+    else
+        return "\<c-p>"
+    endif
 endfunction
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+inoremap <expr> <tab> InsertTabWrapper()
+inoremap <s-tab> <c-n>
 
 " RUNNING TESTS
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -226,27 +215,5 @@ endfun
 
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
-let g:jsx_ext_required = 0
-
-let g:racer_cmd = "/Users/ukutaht/.cargo/bin/racer"
-let $RUST_SRC_PATH="/usr/local/src/rustc-1.8.0/src"
-"""
-
 """ Map FZF to ctrl-p
 map <c-p> :execute 'FZF'<CR>
-
-let g:neomake_javascript_enabled_makers = ['eslint']
-let g:neomake_elixir_mix_maker = {
-      \ 'exe' : 'mix',
-      \ 'args': ['compile', '--warnings-as-errors'],
-      \ 'cwd': getcwd(),
-      \ 'errorformat':
-        \ '** %s %f:%l: %m,' .
-        \ '%f:%l: warning: %m'
-      \ }
-
-let g:neomake_elixir_enabled_makers = ['mix']
-let g:neomake_java_enabled_makers = []
-
-autocmd! BufRead * Neomake
-autocmd! BufWritePost * Neomake
