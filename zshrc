@@ -37,17 +37,13 @@ ctags=/usr/local/bin/ctags
 # User configuration
 unsetopt correct_all
 
-export PATH="$PATH:/usr/bin:/bin:/usr/sbin:/sbin"
-export PATH="/usr/local/bin:/usr/local/sbin:$PATH"
-export PATH="$PATH:/Users/ukutaht/Library/Python/2.7/bin"
-export MANPATH="/usr/local/man:$MANPATH"
-
 function prune_branches() {
   git remote prune origin
   git branch --merged | grep -v "\*" | xargs -n 1 git branch -d
 }
 
 export ERL_AFLAGS="-kernel shell_history enabled"
+eval $(/opt/homebrew/bin/brew shellenv)
 
 echo '
       /╲ ︵╱\
