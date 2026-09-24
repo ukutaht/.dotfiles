@@ -38,9 +38,8 @@ prune_branches() {
 
 export BUN_INSTALL="$HOME/.bun"
 typeset -U path PATH
-path=("$HOME/.npm-global/bin" "$HOME/.cargo/bin" "$BUN_INSTALL/bin" $path)
+path=("$HOME/.local/bin" "$HOME/.npm-global/bin" "$HOME/.cargo/bin" "$BUN_INSTALL/bin" $path)
 
-[[ -s "$HOME/.config/envman/load.sh" ]] && source "$HOME/.config/envman/load.sh"
 [[ -s "$HOME/.fzf.zsh" ]] && source "$HOME/.fzf.zsh"
 [[ -s "$BUN_INSTALL/_bun" ]] && source "$BUN_INSTALL/_bun"
 command -v boxd >/dev/null 2>&1 && source <(boxd completions zsh)
