@@ -19,11 +19,6 @@ export CLICOLOR_FORCE=1
 
 . $HOME/.asdf/asdf.sh
 
-export ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="robbyrussell"
-plugins=(git)
-source $ZSH/oh-my-zsh.sh
-
 export EDITOR="nvim"
 
 alias g='git'
@@ -32,7 +27,6 @@ alias be='bundle exec'
 alias vim='nvim'
 alias la='ls -lAh'
 
-ctags=/usr/local/bin/ctags
 
 # User configuration
 unsetopt correct_all
