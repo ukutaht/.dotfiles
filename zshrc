@@ -36,6 +36,15 @@ prune_branches() {
   git branch --merged | grep -v "\*" | xargs -n 1 git branch -d
 }
 
+echo '
+      /╲ ︵╱\
+     |(◉) (◉)|
+      \︶V︶/
+      /↺↺↺↺\
+      ↺↺↺↺↺↺
+      \↺↺↺↺/
+    ¯¯/\¯¯/\¯¯'
+
 export BUN_INSTALL="$HOME/.bun"
 typeset -U path PATH
 path=("$HOME/.local/bin" "$HOME/.npm-global/bin" "$HOME/.cargo/bin" "$BUN_INSTALL/bin" $path)
